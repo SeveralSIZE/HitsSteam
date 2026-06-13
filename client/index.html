@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HitsSteam — Вход</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+<div class="auth-wrapper">
+    <!-- Левая панель -->
+    <div class="auth-left">
+        <div class="auth-left__content">
+            <div class="logo">
+                <svg class="logo__icon" viewBox="0 0 24 24" fill="white">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+                </svg>
+                <span class="logo__text">HitsSteam</span>
+            </div>
+            <h1 class="auth-left__title">Пополни баланс<br>Steam быстро</h1>
+            <p class="auth-left__subtitle">Моментальное пополнение кошелька Steam</p>
+            <ul class="auth-left__features">
+                <li>✓ Мгновенное зачисление</li>
+                <li>✓ Безопасная оплата</li>
+                <li>✓ Поддержка 24/7</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Правая панель -->
+    <div class="auth-right">
+        <div class="auth-card">
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchTab('login')">Вход</button>
+                <button class="auth-tab" onclick="switchTab('register')">Регистрация</button>
+            </div>
+
+            <!-- Форма входа -->
+            <div id="login-form">
+                <div class="form-group">
+                    <label>Логин</label>
+                    <input type="text" id="login-username" placeholder="Введите логин">
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" id="login-password" placeholder="Введите пароль">
+                </div>
+                <div id="login-error" class="form-error"></div>
+                <button class="btn-primary" onclick="handleLogin()">Войти</button>
+            </div>
+
+            <!-- Форма регистрации -->
+            <div id="register-form" style="display:none">
+                <div class="form-group">
+                    <label>Логин</label>
+                    <input type="text" id="reg-username" placeholder="Придумайте логин">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="reg-email" placeholder="Введите email">
+                </div>
+                <div class="form-group">
+                    <label>Пароль</label>
+                    <input type="password" id="reg-password" placeholder="Придумайте пароль">
+                </div>
+                <div id="register-error" class="form-error"></div>
+                <button class="btn-primary" onclick="handleRegister()">Зарегистрироваться</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

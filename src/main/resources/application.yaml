@@ -1,3 +1,24 @@
 spring:
-  application:
-    name: HitsSteam
+  datasource:
+    url: jdbc:postgresql://postgres:5432/hitssteam
+    username: hitssteam
+    password: hitssteam
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+jwt:
+  secret: secret
+
+crypto:
+  key: "hitssteamkey2026"
+
+logging:
+  file:
+    name: /app/logs/application.log
+  level:
+    root: INFO

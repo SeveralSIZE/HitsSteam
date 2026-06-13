@@ -1,0 +1,118 @@
+/* css/common.css */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg-dark:        #1b2838;
+    --bg-card:        #2a3f5f;
+    --bg-input:       #1e3a5f;
+    --bg-input-hover: #254970;
+    --accent-blue:    #1b9bd8;
+    --accent-yellow:  #f5c518;
+    --accent-green:   #4caf50;
+    --text-primary:   #ffffff;
+    --text-secondary: #8ba3c1;
+    --text-muted:     #5a7a9a;
+    --border:         #2e4a6e;
+    --error:          #e74c3c;
+    --success:        #2ecc71;
+    --radius:         12px;
+    --radius-sm:      8px;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 100vh;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo__icon {
+    width: 36px;
+    height: 36px;
+}
+
+.logo__text {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"] {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-size: 14px;
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+}
+
+input:focus {
+    border-color: var(--accent-blue);
+}
+
+input::placeholder {
+    color: var(--text-muted);
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 13px;
+    background: var(--accent-blue);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+}
+
+.btn-primary:hover {
+    background: #1587c0;
+}
+
+.form-error {
+    color: var(--error);
+    font-size: 13px;
+    min-height: 18px;
+    margin-bottom: 8px;
+}
+
+.form-success {
+    color: var(--success);
+    font-size: 13px;
+    min-height: 18px;
+    margin-bottom: 8px;
+}

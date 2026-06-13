@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HitsSteam — Пополнение</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="main-card">
+
+        <!-- Шапка -->
+        <div class="main-card__header">
+            <div class="header-left">
+                <div class="logo">
+                    <svg class="logo__icon" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+                    </svg>
+                    <span class="logo__text">HitsSteam</span>
+                </div>
+                <div class="header-info">
+                    <h2>Пополни баланс Steam</h2>
+                    <p>Моментальное пополнение кошелька Стим</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <span id="header-username" class="header-username"></span>
+                <button class="btn-logout" onclick="handleLogout()">Выйти</button>
+            </div>
+        </div>
+
+        <!-- Бейджи -->
+        <div class="main-card__badges">
+            <span class="badge badge--green">✔ Гарантия безопасности</span>
+            <span class="badge badge--dark">Кол-во пополнений: <strong>31 448 536</strong></span>
+        </div>
+
+        <div class="dashboard-tabs">
+            <button class="dashboard-tab active" onclick="switchDashTab('topup')">Пополнение</button>
+            <button class="dashboard-tab" onclick="switchDashTab('transfer')">Перевод другу</button>
+        </div>
+
+        <div id="tab-topup">
+            <div class="main-card__body">
+
+                <!-- Левая часть -->
+                <div class="left-panel">
+
+                    <!-- Steam логин -->
+                    <div class="section">
+                        <div class="section__label">Steam</div>
+                        <div class="steam-input-wrapper">
+                            <svg class="steam-icon" viewBox="0 0 24 24" fill="#1b9bd8">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+                            </svg>
+                            <input type="text" id="steam-login" placeholder="Ваш логин Steam *">
+                        </div>
+                        <span class="hint" onclick="alert('Используйте ваш логин на платформе Steam')">
+                                ⓘ Где найти Steam?
+                            </span>
+                    </div>
+
+                    <!-- Сумма -->
+                    <div class="section">
+                        <div class="section__label">Придёт на баланс</div>
+                        <div class="amount-input-wrapper">
+                            <svg class="steam-icon" viewBox="0 0 24 24" fill="#1b9bd8">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+                            </svg>
+                            <input type="number" id="amount" placeholder="Сумма" value="1000">
+                            <button class="clear-btn" onclick="document.getElementById('amount').value=''">✕</button>
+                        </div>
+                        <div class="amount-presets">
+                            <button class="preset" onclick="setAmount(500)">500 ₽</button>
+                            <button class="preset active" onclick="setAmount(1000)">1 000 ₽</button>
+                            <button class="preset" onclick="setAmount(2500)">2 500 ₽</button>
+                            <button class="preset" onclick="setAmount(5000)">5 000 ₽</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Правая часть -->
+                <div class="right-panel">
+                    <div class="payment-block">
+
+                        <!-- Итого -->
+                        <div class="total-row">
+                            <span>Итого</span>
+                            <span id="total-display" class="total-amount">1 000 ₽</span>
+                        </div>
+
+                        <!-- Форма карты / сохранённая карта -->
+                        <div id="card-section">
+                            <!-- Заполняется через JS -->
+                        </div>
+
+                        <div id="pay-error" class="form-error"></div>
+                        <div id="pay-success" class="form-success"></div>
+
+                        <button class="btn-pay" id="pay-btn" onclick="handlePay()" disabled>Оплатить</button>
+
+                        <p class="terms">
+                            Нажимая «Оплатить», вы принимаете
+                            <a href="#">Правила пользования сервисом</a>
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="tab-transfer" style="display:none">
+            <div class="transfer-panel">
+                <div class="section__label">Найти игрока</div>
+                <div class="steam-input-wrapper" style="margin-bottom:12px">
+                    <svg class="steam-icon" viewBox="0 0 24 24" fill="#1b9bd8">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+                    </svg>
+                    <input type="text" id="search-input" placeholder="Логин пользователя" oninput="handleSearch()">
+                </div>
+                <div id="search-results"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
