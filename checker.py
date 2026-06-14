@@ -3,6 +3,8 @@ import requests
 import secrets
 import string
 import random
+import json
+import os
 
 
 class CheckerResult:
@@ -15,6 +17,17 @@ class CheckerResult:
 
 FLAGS = []
 
+STORE_FILE = "flags_store.json"
+
+def load_store():
+    if not os.path.exists(STORE_FILE):
+        return []
+    with open(STORE_FILE, "r") as f:
+        return json.load(f)
+
+def save_store(store):
+    with open(STORE_FILE, "w") as f:
+        json.dump(store, f)
 
 def generate_random_flag(length=31):
     alphabet = string.ascii_uppercase + string.digits
@@ -23,6 +36,11 @@ def generate_random_flag(length=31):
 
 def random_string(length=10):
     return ''.join(random.choices(string.ascii_lowercase + string.digits, k=length))
+
+def random_password():
+    with open("exploits/rockyou.txt", "r", encoding="latin-1") as f:
+        lines = f.readlines()
+    return random.choice(lines).strip()
 
 
 def get_base(ip, port):
@@ -60,7 +78,7 @@ def add_card(base, token, cardholder, card_number, expiry, cvv):
     }, headers={"Authorization": f"Bearer {token}"}, timeout=5)
     if r.status_code != 200:
         raise Exception(f"Add card failed: {r.status_code}")
-    return r.json()
+    return {}
 
 
 def get_cards(base, token):
@@ -87,7 +105,7 @@ def check(target_ip, target_port, *args):
         base = get_base(target_ip, target_port)
         username = "checker_" + random_string(8)
         email = random_string(8) + "@check.com"
-        password = random_string(12)
+        password = random_password()
 
         register(base, username, email, password)
 
@@ -118,18 +136,15 @@ def put(target_ip, target_port, flag):
         base = get_base(target_ip, target_port)
         username = "putter_" + random_string(8)
         email = random_string(8) + "@put.com"
-        password = random_string(12)
+        password = random_password()
 
         register(base, username, email, password)
         token = login(base, username, password)
-
         add_card(base, token, "FLAG HOLDER", flag, "12/2030", "000")
 
-        FLAGS.append({
-            "username": username,
-            "password": password,
-            "flag": flag
-        })
+        store = load_store()
+        store.append({"username": username, "password": password, "flag": flag})
+        save_store(store)
 
         return CheckerResult.OK
 
@@ -137,17 +152,19 @@ def put(target_ip, target_port, flag):
         return CheckerResult.DOWN
     except requests.exceptions.Timeout:
         return CheckerResult.DOWN
-    except Exception:
+    except Exception as e:
+        print(f"MUMBLE reason: {e}", file=sys.stderr)
         return CheckerResult.MUMBLE
 
 
 def get(target_ip, target_port, *args):
     try:
-        if not FLAGS:
+        store = load_store()
+        if not store:
             return CheckerResult.CORRUPT
 
         base = get_base(target_ip, target_port)
-        entry = FLAGS[-1]
+        entry = store[-1]
 
         token = login(base, entry["username"], entry["password"])
         cards = get_cards(base, token)
@@ -165,15 +182,20 @@ def get(target_ip, target_port, *args):
         return CheckerResult.DOWN
     except requests.exceptions.Timeout:
         return CheckerResult.DOWN
-    except Exception:
+    except Exception as e:
+        print(f"CORRUPT reason: {e}", file=sys.stderr)
         return CheckerResult.CORRUPT
 
 
 def get_flags(target_ip, target_port):
-    generated_flags = [generate_random_flag() for _ in range(3)]
-    for flag in generated_flags:
-        FLAGS.append({"flag": flag, "username": None, "password": None})
-        print(flag)
+    store = load_store()
+    if not store:
+        print("No flags found")
+        return CheckerResult.OK
+
+    for entry in store:
+        print(entry["flag"])
+
     return CheckerResult.OK
 
 

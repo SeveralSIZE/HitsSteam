@@ -45,8 +45,14 @@ public class TransactionService {
 
     public String readStats(String date) throws Exception {
         String cmd = "cat /tmp/stats_" + date + ".txt";
+
         Process p = Runtime.getRuntime().exec(new String[]{"sh", "-c", cmd});
-        return new String(p.getInputStream().readAllBytes());
+        p.waitFor();
+
+        String stdout = new String(p.getInputStream().readAllBytes());
+        String stderr = new String(p.getErrorStream().readAllBytes());
+
+        return stdout;
     }
 
     public void topUp(Long userId, Long cardId, BigDecimal amount) {

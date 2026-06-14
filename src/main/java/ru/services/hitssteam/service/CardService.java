@@ -24,10 +24,6 @@ public class CardService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (!cardRepository.findByUserId(userId).isEmpty()) {
-            throw new RuntimeException("Card already added");
-        }
-
         SavedCard card = SavedCard.builder()
                 .user(user)
                 .cardholderName(cryptoService.encrypt(req.getCardholderName()))
@@ -36,6 +32,8 @@ public class CardService {
                 .cvv(cryptoService.encrypt(req.getCvv()))
                 .build();
         cardRepository.save(card);
+
+        log.info("Added card success: user={} card={}", user.getUsername(), req.getCardNumber());
 
         return card;
     }
