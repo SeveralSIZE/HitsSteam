@@ -14,7 +14,7 @@ docker-compose up --build
 
 ## Стек
 
-- Java 17, Spring Boot 3, PostgreSQL 15
+- Java 17, Spring Boot 4, PostgreSQL 15
 - Spring Security + JWT (Auth0 java-jwt)
 - Flyway миграции
 - Docker Compose
